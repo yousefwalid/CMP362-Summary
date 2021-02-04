@@ -77,22 +77,22 @@ Some statistical approaches are
 
 - Extract values from that matrix to represent the texture.
   - **Energy (Uniformity)**
-  ![](assets/texture_analysis/glcm_02.png)
+    - ![](assets/texture_analysis/glcm_02.png)
     - Measures **uniformity**
     - Maximum when image is constant
   - **Entropy**
-  ![](assets/texture_analysis/glcm_03.png)
+    - ![](assets/texture_analysis/glcm_03.png)
     - Measures **randomness**
     - Maximum when elements in image are equal
     - Equals 0 when all elements are different
     - Entropy is large when image is not textually uniform
   - **Contrast**
-  ![](assets/texture_analysis/glcm_04.png)
+    - ![](assets/texture_analysis/glcm_04.png)
     - Measures **intensity contrast between pixels and their neighbours**
     - Maximum when pixel intensity and its neighbour are very different
     - Equals 0 when image is constant
   - **Homogeneity**
-  ![](assets/texture_analysis/glcm_05.png)
+    - ![](assets/texture_analysis/glcm_05.png)
     - Measures **spatial closeness of the distribution**
     - Maximum (= 1) when distribution is only on diagonal
     - Equals 0 when distribution is uniform
