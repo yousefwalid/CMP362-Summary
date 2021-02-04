@@ -1,5 +1,23 @@
 # CMP362 - Image Processing and Computer Vision
 
+This is a quick summary for the image processing course, containing important notes and explanations for important parts
+
+- [CMP362 - Image Processing and Computer Vision](#cmp362---image-processing-and-computer-vision)
+- [Texture Analysis](#texture-analysis)
+  - [What is a texture?](#what-is-a-texture)
+  - [Texture Analysis Approaches](#texture-analysis-approaches)
+  - [Structural Approach](#structural-approach)
+  - [Statistical Approach](#statistical-approach)
+    - [Edge Density and Direction](#edge-density-and-direction)
+    - [Local Binary Pattern (LBP)](#local-binary-pattern-lbp)
+    - [Gray Level Co-occurence Matrix (GLCM)](#gray-level-co-occurence-matrix-glcm)
+    - [Windowing](#windowing)
+    - [Law's Texture Energy Features](#laws-texture-energy-features)
+      - [The Law's Algorithm](#the-laws-algorithm)
+      - [1-D Law's filters](#1-d-laws-filters)
+      - [2-D Law's filters](#2-d-laws-filters)
+      - [9-D Pixel Feature Vector](#9-d-pixel-feature-vector)
+      - [Law's process visualized](#laws-process-visualized)
 # Texture Analysis
 
 ## What is a texture?
