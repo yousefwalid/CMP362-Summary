@@ -18,6 +18,13 @@ This is a quick summary for the image processing course, containing important no
       - [2-D Law's filters](#2-d-laws-filters)
       - [9-D Pixel Feature Vector](#9-d-pixel-feature-vector)
       - [Law's process visualized](#laws-process-visualized)
+- [Harris Corner Detector](#harris-corner-detector)
+  - [How to detect corners?](#how-to-detect-corners)
+  - [Mathematics behind corner detection](#mathematics-behind-corner-detection)
+  - [Corner detection algorithm](#corner-detection-algorithm)
+  - [Finding corner response without eigenvalues](#finding-corner-response-without-eigenvalues)
+  - [Harris Corner algorithm](#harris-corner-algorithm)
+  - [Harris Corner properties](#harris-corner-properties)
 # Texture Analysis
 
 ## What is a texture?
@@ -145,3 +152,87 @@ The algorithm is as follows:
 #### Law's process visualized
 
 ![](assets/texture_analysis/laws_04.png)
+
+# Harris Corner Detector
+
+In image matching, we need an invariant feature, needs to be **insensitive** to
+  - translation
+  - rotation
+  - scaling
+  - brightness changes
+
+Corners are good features for matching, this is because a corner has changes in all directions (a shift in any direction will result in a significant change at a corner).
+
+![](assets/harris_corner/corner_01.png)
+
+## How to detect corners?
+
+What defines a corner is that a shift in any direction will result in a change, so to detect corners we can
+
+1. Shift in horizontal, vertical, and diagonal directions by one pixel
+2. Calculate the absolute value of the mean shift error (MSE) for each shift
+3. Take the **minimum** MSE as the cornerness response
+
+*Note: we pick the minimum MSE because in a corner, the minimum value will still be high, but in an edge or a flat region the minimum value will be very small.*
+
+## Mathematics behind corner detection
+
+![](assets/harris_corner/corner_02.png)
+
+By simplification of the equation above with taylor series we can reach this final form
+
+![](assets/harris_corner/corner_03.png)
+
+*M: Auto-correlation matrix*
+
+Since M is symmetric, we can decompose it into
+![](assets/harris_corner/corner_04.png)
+
+This matrix can also be visualized as an ellipse with 
+- Axis length determined by **eigenvalues** 
+- Axis orientation determined by **eigenvectors** (R)
+
+![](assets/harris_corner/corner_05.png)
+
+
+Using this visualization we can visualize different regions as ellipses
+![](assets/harris_corner/corner_06.png)
+
+Therefore
+- 2 strong eigenvalues: interest point
+- 1 strong eigenvalue: contour
+- 0 strong eigenvalues: uniform region
+
+we can threshold on the eigenvalues to find interest points.
+
+## Corner detection algorithm
+
+1. Compute gradient at each point (Ix, Iy)
+2. Create auto-correlation matrix (M) using gradients
+3. Compute the eigenvalues
+4. Threshold on eigenvalues
+
+## Finding corner response without eigenvalues
+Corner response can also be computed by the determinant and trace of matrix M
+
+![](assets/harris_corner/corner_07.png)
+![](assets/harris_corner/corner_08.png)
+
+- Corner response (R) is 
+  - Positive for corners
+  - Negative for edges
+  - Small for flat regions
+
+## Harris Corner algorithm
+
+1. Compute gradients for image (Ix, Iy)
+2. Create auto-correlation matrix (M) using gradients
+3. Compute the the response R for each pixel
+4. Threshold on value of R
+5. Do non-maxima supression to get single response for each corner
+
+## Harris Corner properties
+
+- Rotation invariance
+  - Ellipse (corner) rotates but its shape remains the same
+- **Not** invariant to scaling
