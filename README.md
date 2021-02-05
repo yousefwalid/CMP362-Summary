@@ -68,7 +68,7 @@ Some statistical approaches are
 
 ![](assets/texture_analysis/edge_01.png)
 
-### Local Binary Pattern (LBP)
+### Local Binary Pattern (LBP)😂
 
 - Replace each pixel with a n-bit binary number representing the values surrounding that pixel.
   - For an 8-bit number, replace each pixel with a number describing the 8 surrounding pixels.
@@ -236,3 +236,31 @@ Corner response can also be computed by the determinant and trace of matrix M
 - Rotation invariance
   - Ellipse (corner) rotates but its shape remains the same
 - **Not** invariant to scaling
+
+# Blob detection
+
+Blobs are considered interest points for detection.
+
+![](assets/blob_detection/blob_01.png)
+
+## Laplacian of Gaussian (LOG)
+
+LOG is used for blob detection, because for a certain sigma, LOG can detect blobs with certain sizes.
+
+![](assets/blob_detection/blob_02.png)
+
+The response with the maximum value is considered a blob corresponding to that sigma value.
+
+We can compute LOG at different sigmas to detect blobs of different sizes
+
+![](assets/blob_detection/blob_03.png)
+
+
+## Difference of Gaussians (DOG)
+
+DOG is used as an approximation for LOG because it is a much faster approach,
+the idea is calculating gaussians at different sigmas, and then subtracting each image from the one before it to get the response we want.
+
+![](assets/blob_detection/blob_04.png)
+
+![](assets/blob_detection/blob_05.png)
