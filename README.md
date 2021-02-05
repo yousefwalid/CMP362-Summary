@@ -9,7 +9,7 @@ This is a quick summary for the image processing course, containing important no
   - [Structural Approach](#structural-approach)
   - [Statistical Approach](#statistical-approach)
     - [Edge Density and Direction](#edge-density-and-direction)
-    - [Local Binary Pattern (LBP)](#local-binary-pattern-lbp)
+    - [Local Binary Pattern (LBP)😂](#local-binary-pattern-lbp)
     - [Gray Level Co-occurence Matrix (GLCM)](#gray-level-co-occurence-matrix-glcm)
     - [Windowing](#windowing)
     - [Law's Texture Energy Features](#laws-texture-energy-features)
@@ -25,6 +25,9 @@ This is a quick summary for the image processing course, containing important no
   - [Finding corner response without eigenvalues](#finding-corner-response-without-eigenvalues)
   - [Harris Corner algorithm](#harris-corner-algorithm)
   - [Harris Corner properties](#harris-corner-properties)
+- [Blob detection](#blob-detection)
+  - [Laplacian of Gaussian (LOG)](#laplacian-of-gaussian-log)
+  - [Difference of Gaussians (DOG)](#difference-of-gaussians-dog)
 # Texture Analysis
 
 ## What is a texture?
