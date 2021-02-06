@@ -277,15 +277,15 @@ We want a feature descriptor that is invariant to
 
 ## Algorithm steps
 1. **Construct a scale space**
-     - Take the original image and generate progressively blurred out images by using **Gaussian Blur**, multiplying the value of sigma each time by k.
-      - ![](assets/sift/sift_01.png) -->
+     - Take the original image and generate progressively blurred out images by using **Gaussian Blur**, multiplying the value of sigma each time by k. $\sigma → k*\sigma → k^2*\sigma$
+      - ![](assets/sift/sift_01.png)
      - SIFT also resizes original image to half size and then generated blurred images again. and keep repeating.
       - ![](assets/sift/sift_02.png)
 2. **LOG approximation**
     - Compute differences between each blurred image per octave to find DOG (approximation for LOG)
     - ![](assets/sift/sift_03.png)
 3. **Finding key points**
-    - Iterate through each pixel and check its neighbourhood within the current image, the image above it and the image below it. 
+    - Iterate through all pixels in all scales that is between two scales and check its neighbourhood within the current scale image, the scale image above it and the scale image below it. 
     - A point is marked as an interest point if it is the greatest or the least of all 26 neighbours.
     - ![](assets/sift/sift_04.png)
 4. **Eliminate edges and low contrast regions**
