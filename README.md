@@ -9,7 +9,7 @@ This is a quick summary for the image processing course, containing important no
   - [Structural Approach](#structural-approach)
   - [Statistical Approach](#statistical-approach)
     - [Edge Density and Direction](#edge-density-and-direction)
-    - [Local Binary Pattern (LBP)](#local-binary-pattern-lbp)
+    - [Local Binary Pattern (LBP)😂](#local-binary-pattern-lbp)
     - [Gray Level Co-occurence Matrix (GLCM)](#gray-level-co-occurence-matrix-glcm)
     - [Windowing](#windowing)
     - [Law's Texture Energy Features](#laws-texture-energy-features)
@@ -28,6 +28,9 @@ This is a quick summary for the image processing course, containing important no
 - [Blob detection](#blob-detection)
   - [Laplacian of Gaussian (LOG)](#laplacian-of-gaussian-log)
   - [Difference of Gaussians (DOG)](#difference-of-gaussians-dog)
+- [Scale Invariant Feature Transform (SIFT)](#scale-invariant-feature-transform-sift)
+  - [SIFT Algorithm](#sift-algorithm)
+  - [Wrap up of SIFT features](#wrap-up-of-sift-features)
 # Texture Analysis
 
 ## What is a texture?
@@ -275,7 +278,7 @@ We want a feature descriptor that is invariant to
   - Rotation
   - Illumination change
 
-## Algorithm steps
+## SIFT Algorithm
 1. **Construct a scale space**
      - Take the original image and generate progressively blurred out images by using **Gaussian Blur**, multiplying the value of sigma each time by k. $\sigma → k*\sigma → k^2*\sigma$
       - ![](assets/sift/sift_01.png)
@@ -320,7 +323,7 @@ We want a feature descriptor that is invariant to
     5. Do this for all sixteen 4x4 regions, end up with 4x4x8 = 128 numbers.
     6. Normalize the 128 numbers. These numbers form the 128 features (feature vector). The keypoint is uniquely identified by this feature vector.
 
-Wrap up of SIFT features:
+## Wrap up of SIFT features
 - Descriptor 128-D:
   - 4x4 patches, each with 8-D gradient angle histogram, 4x4x8 = 128.
   - Normalized to reduce effect of illumination change.
