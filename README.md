@@ -9,7 +9,7 @@ This is a quick summary for the image processing course, containing important no
   - [Structural Approach](#structural-approach)
   - [Statistical Approach](#statistical-approach)
     - [Edge Density and Direction](#edge-density-and-direction)
-    - [Local Binary Pattern (LBP)😂](#local-binary-pattern-lbp)
+    - [Local Binary Pattern (LBP)](#local-binary-pattern-lbp)
     - [Gray Level Co-occurence Matrix (GLCM)](#gray-level-co-occurence-matrix-glcm)
     - [Windowing](#windowing)
     - [Law's Texture Energy Features](#laws-texture-energy-features)
@@ -267,3 +267,66 @@ the idea is calculating gaussians at different sigmas, and then subtracting each
 ![](assets/blob_detection/blob_04.png)
 
 ![](assets/blob_detection/blob_05.png)
+
+# Scale Invariant Feature Transform (SIFT)
+
+We want a feature descriptor that is invariant to
+  - Scale
+  - Rotation
+  - Illumination change
+
+## Algorithm steps
+1. **Construct a scale space**
+     - Take the original image and generate progressively blurred out images by using **Gaussian Blur**, multiplying the value of sigma each time by k.
+      - ![](assets/sift/sift_01.png) -->
+     - SIFT also resizes original image to half size and then generated blurred images again. and keep repeating.
+      - ![](assets/sift/sift_02.png)
+2. **LOG approximation**
+    - Compute differences between each blurred image per octave to find DOG (approximation for LOG)
+    - ![](assets/sift/sift_03.png)
+3. **Finding key points**
+    - Iterate through each pixel and check its neighbourhood within the current image, the image above it and the image below it. 
+    - A point is marked as an interest point if it is the greatest or the least of all 26 neighbours.
+    - ![](assets/sift/sift_04.png)
+4. **Eliminate edges and low contrast regions**
+    - Reject points with bad contrast: DoG smaller than 0.03 (values are between [0,1]).
+    - Reject edges.
+5. **Assign orientation to the key points**
+    - Collect gradient magnitude and direction around key point to figure out the dominant orientation.
+    - This orientation provides rotation invariance
+    - Steps are as follows:
+      1. For each point X, define a window that surrounds this point. The dimension of window is variable (depends on scale).
+        - ![](assets/sift/sift_05.png)
+      2. For each pixel in this window calculate the gradient magnitude and orientation.
+      3. Create a histogram of orientations with 36 bins.
+        - ![](assets/sift/sift_06.png)
+      4. The peak of the histogram is assigned to the orientation of the key point, also any points above 80% is converted to a new keypoint with same position and magnitude, but different orientation.
+
+      - *Note that orientation can split a keypoint into multiple keypoints.*
+
+6. Generate SIFT features
+    - So far, each point has:
+      - Location: (x, y)
+      - Scale: $\sigma$
+      - Gradient magnitude and orientation: m, $\theta$
+
+    1. Rotate patches around their dominant gradient orientation.
+        - ![](assets/sift/sift_07.png)
+    2. Take 16x16 window around the keypoint, which is broken to sixteen 4x4 windows.
+        - ![](assets/sift/sift_08.png)
+    3. Calculate gradient magnitudes and orientations within each 4x4 window.
+    4. Put these orientations in an 8 bins histogram. (the amount added to the histogram depends on the **magnitude of the gradient** and on the **distance from the keypoint**)
+        - ![](assets/sift/sift_09.png)
+    5. Do this for all sixteen 4x4 regions, end up with 4x4x8 = 128 numbers.
+    6. Normalize the 128 numbers. These numbers form the 128 features (feature vector). The keypoint is uniquely identified by this feature vector.
+
+Wrap up of SIFT features:
+- Descriptor 128-D:
+  - 4x4 patches, each with 8-D gradient angle histogram, 4x4x8 = 128.
+  - Normalized to reduce effect of illumination change.
+- Position (x,y):
+  - Where the feature is at.
+- Scale:
+  - Control region size for descriptor extraction.
+- Orientation
+  - To achieve rotation invariant descriptor.
