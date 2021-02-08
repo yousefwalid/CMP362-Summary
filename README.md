@@ -31,7 +31,7 @@ This is a quick summary for the image processing course, containing important no
 - [Scale Invariant Feature Transform (SIFT)](#scale-invariant-feature-transform-sift)
   - [SIFT Algorithm](#sift-algorithm)
   - [Wrap up of SIFT features](#wrap-up-of-sift-features)
-- [k-Nearest Neighbours (kNN) classifier](#k-nearest-neighbours-knn-classifier)
+- [k-Nearest Neighbours (kNN)](#k-nearest-neighbours-knn-classifier)
   - [Choosing value of k](#choosing-value-of-k)
 - [Neural Networks (NNs)](#neural-networks-nns)
   - [Activation Functions](#activation-functions)
@@ -39,7 +39,10 @@ This is a quick summary for the image processing course, containing important no
   - [Multilayer Feedforward Neural Networks](#multilayer-feedforward-neural-networks)
   - [Training process](#training-process)
     - [Back propagation algorithm](#back-propagation-algorithm)
-- [Convolutional Neural Network (CNN)](#convolutional-neural-network-cnn)
+- [Convolutional Neural Networks (CNN)](#convolutional-neural-networks-cnn)
+  - [Convolutional Layers](#convolutional-layers)
+  - [Pooling Layers](#pooling-layers)
+  - [Big Picture](#big-picture)
 # Texture Analysis
 
 ## What is a texture?
