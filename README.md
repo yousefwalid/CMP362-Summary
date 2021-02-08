@@ -9,7 +9,7 @@ This is a quick summary for the image processing course, containing important no
   - [Structural Approach](#structural-approach)
   - [Statistical Approach](#statistical-approach)
     - [Edge Density and Direction](#edge-density-and-direction)
-    - [Local Binary Pattern (LBP)😂](#local-binary-pattern-lbp)
+    - [Local Binary Pattern (LBP)](#local-binary-pattern-lbp)
     - [Gray Level Co-occurence Matrix (GLCM)](#gray-level-co-occurence-matrix-glcm)
     - [Windowing](#windowing)
     - [Law's Texture Energy Features](#laws-texture-energy-features)
@@ -31,6 +31,15 @@ This is a quick summary for the image processing course, containing important no
 - [Scale Invariant Feature Transform (SIFT)](#scale-invariant-feature-transform-sift)
   - [SIFT Algorithm](#sift-algorithm)
   - [Wrap up of SIFT features](#wrap-up-of-sift-features)
+- [k-Nearest Neighbours (kNN) classifier](#k-nearest-neighbours-knn-classifier)
+  - [Choosing value of k](#choosing-value-of-k)
+- [Neural Networks (NNs)](#neural-networks-nns)
+  - [Activation Functions](#activation-functions)
+  - [Perceptron](#perceptron)
+  - [Multilayer Feedforward Neural Networks](#multilayer-feedforward-neural-networks)
+  - [Training process](#training-process)
+    - [Back propagation algorithm](#back-propagation-algorithm)
+- [Convolutional Neural Network (CNN)](#convolutional-neural-network-cnn)
 # Texture Analysis
 
 ## What is a texture?
@@ -74,7 +83,7 @@ Some statistical approaches are
 
 ![](assets/texture_analysis/edge_01.png)
 
-### Local Binary Pattern (LBP)😂
+### Local Binary Pattern (LBP)
 
 - Replace each pixel with a n-bit binary number representing the values surrounding that pixel.
   - For an 8-bit number, replace each pixel with a number describing the 8 surrounding pixels.
@@ -333,3 +342,109 @@ We want a feature descriptor that is invariant to
   - Control region size for descriptor extraction.
 - Orientation
   - To achieve rotation invariant descriptor.
+
+# k-Nearest Neighbours (kNN) classifier
+
+- After extracting features from our images, we need to classify each cluster of features into a separate class, we use a classifier for that.
+- Features need to be able to uniquely distinguish between the classes.
+  - ![](assets/knn/knn_01.png)
+
+  -  *The overlapping region is one that cannot be uniquely distinguished by the features*
+
+- kNN works by inspecting k training instances with closest feature values and choosing the most commonly occurring classification of those k instances.
+
+## Choosing value of k
+
+- k is a small integer such as 3 or 5.
+- k must be odd. 
+- ![](assets/knn/knn_02.png)
+  - If k is too small
+    - Sensitive to noise.
+  - If k is too big
+    - Neighbourhood might include points from other classes.
+
+# Neural Networks (NNs)
+
+Neural Networks attempt to mimic the human brain, they typically consist of **neurons**, and each neuron is connected to other neurons with **direct communication links** that have weights associated to them.
+
+![](assets/nn/nn_01.png)
+
+- Each neuron outputs either 1 or 0, decided by an activation function that takes the inputs of the neuron and activates accordingly.
+- The output of the activation function is sent to other neurons after being multiplied by connection weights.
+
+## Activation Functions
+There are many activation functions, some of them are:
+
+![](assets/nn/nn_02.png)
+
+## Perceptron
+
+A perceptron is
+- Single layer neural network
+- Output is one of two classes (1, 0)
+- It is the most basic form of a neural network
+
+![](assets/nn/nn_03.png)
+
+## Multilayer Feedforward Neural Networks
+
+- Consists of multiple layers
+  - Each layer is connected to the one after it
+- The output of a node in layer $k$ is an input to all nodes in layer $k+1$.
+- The final output is the set of classes to be classified.
+
+![](assets/nn/nn_04.png)
+
+## Training process
+
+- If the network isn't behaving the way it should, change the weighting of a random link by a random amount.
+- If the accuracy of the network declines, undo the change and make a different one.
+
+### Back propagation algorithm
+
+- Searches for weight values that minimizes the total error of the network over the training set.
+- Backprop adjusts the weights of the NN in order to minimize the network's total mean squared error.
+- Consists of two repeated passes:
+  - **Forward pass:** Network is activated on one example, and the error of each neuron of the output is calculated.
+  - **Backward pass:** The error calculated is used to correct the weights. 
+    - Starting at the output, the error is propagated backwards through the network layer by layer.
+    - Done by computing local gradient of each neuron.
+
+# Convolutional Neural Networks (CNN)
+
+- Uses neural networks to automatically extract features out of the training set
+- Combines feature extraction and classification
+- All features can be represented by a set of certain convolution masks.
+  - We need to find suitable convolutional masks.
+
+![](assets/cnn/cnn_01.png)
+
+## Convolutional Layers
+
+Taking a segment of an image $x$ and convolving it with filter $w$ is similar to doing a dot product $w^Tx$, we also add a bias vector after the convolution, resulting in $w^Tx+b$
+
+The result of the convolution over the whole image is called an **activation map**
+
+![](assets/cnn/cnn_02.png)
+
+- The output size is $(N + P * 2 - F)\ /\ stride + 1$
+    - $N$: Image size
+    - $P$: Padding amount per dimension
+    - $F$: Filter size
+    - $stride$: The distance by which the filter moves each iteration
+
+## Pooling Layers
+
+- Takes an activation map as an input and makes it smaller and more manageable.
+- Does downsamping on the activation map with a pooling function (minpooling, maxpooling, avgpooling)
+
+![](assets/cnn/cnn_03.png)
+
+- The output size is $(N - F)\ /\ stride + 1$
+
+## Big Picture
+
+A CNN is a series of convolutional layers, activation functions and pooling layers set after each other.
+
+![](assets/cnn/cnn_04.png)
+
