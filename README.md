@@ -31,7 +31,7 @@ This is a quick summary for the image processing course, containing important no
 - [Scale Invariant Feature Transform (SIFT)](#scale-invariant-feature-transform-sift)
   - [SIFT Algorithm](#sift-algorithm)
   - [Wrap up of SIFT features](#wrap-up-of-sift-features)
-- [k-Nearest Neighbours (kNN)](#k-nearest-neighbours-knn-classifier)
+- [k-Nearest Neighbours (kNN) classifier](#k-nearest-neighbours-knn-classifier)
   - [Choosing value of k](#choosing-value-of-k)
 - [Neural Networks (NNs)](#neural-networks-nns)
   - [Activation Functions](#activation-functions)
@@ -43,6 +43,12 @@ This is a quick summary for the image processing course, containing important no
   - [Convolutional Layers](#convolutional-layers)
   - [Pooling Layers](#pooling-layers)
   - [Big Picture](#big-picture)
+- [You Only Look Once (YOLO)](#you-only-look-once-yolo)
+  - [Classification Based Object Detection](#classification-based-object-detection)
+  - [Region based CNN (RCNN)](#region-based-cnn-rcnn)
+  - [Object Detection as Regression](#object-detection-as-regression)
+  - [YOLO Algorithm](#yolo-algorithm)
+    - [Algorithm Steps](#algorithm-steps)
 # Texture Analysis
 
 ## What is a texture?
@@ -319,7 +325,7 @@ We want a feature descriptor that is invariant to
 
       - *Note that orientation can split a keypoint into multiple keypoints.*
 
-6. Generate SIFT features
+6. **Generate SIFT features**
     - So far, each point has:
       - Location: (x, y)
       - Scale: $\sigma$
@@ -451,3 +457,89 @@ A CNN is a series of convolutional layers, activation functions and pooling laye
 
 ![](assets/cnn/cnn_04.png)
 
+# You Only Look Once (YOLO)
+
+- Image Classification
+  - Identifying the class of the image
+- Object Localization
+  - Identifying the position of the object
+- Object Detection
+  - Finding all objects in the image and drawing boxes around them
+- Instance Segmentation
+  - Find exact boundaries of objects, not just bounding boxes
+
+![](assets/yolo/yolo_01.png)
+
+- Object Detection Algorithms
+  - Classification Based
+      1. Select interesting regions
+      2. Classify them using a CNN
+      - Region-based convolutional neural network (RCNN)
+  - Regression Based
+    - Predict classes and bounding boxes of image in one run.
+    - YOLO algorithm (real time object detection)
+
+## Classification Based Object Detection
+
+- Use a sliding window over the whole image to classify regions.
+- **Problem:** Needs to check a huge amount of regions.
+
+## Region based CNN (RCNN)
+- Use a proposal method to extract interest regions out of the image.
+  - Proposal method can be a CNN.
+- Classify regions of interest using a CNN.
+
+## Object Detection as Regression
+- Training models to detect and classify objects from the image
+- **Problem:** Each image can have a different number of outputs
+  - Cannot train a CNN on a variable dimensions of outputs.
+
+![](assets/yolo/yolo_02.png)
+
+## YOLO Algorithm
+
+- Predicts:
+  - The bounding boxes in the image
+  - The class of each bounding box
+  
+- Describes each bounding box with:
+  - Center of box (bx, by)
+  - Width (bw)
+  - Height (bh)
+  - Class of object (c)
+  - Probability that there is an object in box (pc)
+
+### Algorithm Steps
+1. **Divide the image into n*n grid**
+![](assets/yolo/yolo_03.png)
+
+2. **Extract vectors for each square**
+Vector contains
+   1. (bx, by)
+   2. (bw, bh)
+   3. (pc)
+   4. set of classes (c)
+   
+![](assets/yolo/yolo_04.png)
+
+- Encoding the bounding box
+
+  - (bx, by) is the midpoint of the object and range from 0 to 1
+  - (bw, bh) is the dimensions of the bounding box to the whole box
+
+  - ![](assets/yolo/yolo_05.png)
+
+- Anchor Boxes
+  - Since a box can contain more than one object, we add more than one vector per box.
+  - ![](assets/yolo/yolo_06.png) ![](assets/yolo/yolo_07.png)
+  - The number of anchor boxes represents the maximum number of objects that we can detect per a square.
+
+3. **Non-Max supression**
+Removes multiple responses of the same object.
+
+   1. Discard all boxes with probabilities less than a certain threshold.
+   2. For the remaining boxes, take the one with the highest probability as a reference.
+   3. Discard any other object that has Intersection over Union (IOU)  greater than a threshold with the highest probability box.
+       - ![](assets/yolo/yolo_08.png) 
+       - IoU = Area(Intersection) / Area(Union) = Area(yellow) / Area(green)
+   4. Repeat step 2 until all boxes are either outputs or discarded.
